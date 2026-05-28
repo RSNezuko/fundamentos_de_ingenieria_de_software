@@ -1,0 +1,21 @@
+00:00 +0: loading C:/Users/Dannae/Documents/DannaeING/fundamentos_de_ingenieria_de_software/Blockcode/App_blockCode/integration_test/login_test.dart
+Running Gradle task 'assembleDebug'...                          
+INFO: key.properties not found; release signing skipped.
+INFO: Release keystore not configured; using debug signing for release build.
+Running Gradle task 'assembleDebug'...                             18.6s
+ΓêÜ Built build\app\outputs\flutter-apk\app-debug.apk
+Installing build\app\outputs\flutter-apk\app-debug.apk...          831ms
+00:00 +0: Prueba Automatizada Android - Flujo de Iniciar Sesion Escenario 1: Datos invalidos muestran mensaje de error
+Splash: _checkAuth started
+Splash: calling isLoggedIn
+AuthService.getToken: reading prefs
+Splash: isLoggedIn result = false
+AuthService.login: HTTP 200
+00:04 +1: Prueba Automatizada Android - Flujo de Iniciar Sesion Escenario 2: Datos validos permiten el acceso al sistema
+00:04 +1: Prueba Automatizada Android - Flujo de Iniciar Sesion Escenario 1: Datos invalidos muestran mensaje de error
+Splash: _checkAuth started
+Splash: calling isLoggedIn
+AuthService.getToken: reading prefs
+Splash: isLoggedIn result = false
+00:08 +2: (tearDownAll)
+00:08 +2: All tests passed!
