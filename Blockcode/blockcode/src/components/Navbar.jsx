@@ -24,6 +24,14 @@ export default function Navbar() {
         <nav className="navbar">
 
             <NavLink
+                to="/dashboard"
+                end
+                className="nav-link"
+            >
+                Dashboard
+            </NavLink>
+
+            <NavLink
                 to="/dashboard/projects"
                 className="nav-link"
             >

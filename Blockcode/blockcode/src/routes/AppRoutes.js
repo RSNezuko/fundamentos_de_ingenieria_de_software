@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login1 from "../pages/Login1";
 import Users from "../pages/Users";
 import Layout from "../pages/Layout";
+import Dashboard from "../pages/Dashboard";
 import Projects from "../pages/Projects";
 import Inventory from "../pages/Inventory";
 import Transacciones from "../pages/Transaccion";
@@ -17,6 +18,7 @@ export default function AppRoutes() {
 
                 {/* App con layout */}
                 <Route path="/dashboard" element={<Layout />}>
+                    <Route index element={<Dashboard />} />
                     <Route path="users" element={<Users />} />
                     <Route path="projects" element={<Projects />} />
                     <Route path="inventory" element={<Inventory />}/>
