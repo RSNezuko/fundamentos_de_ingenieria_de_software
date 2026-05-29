@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:blockcode/services/proyecto_service.dart';
 import 'package:blockcode/services/usuario_proyecto_service.dart';
 import 'package:blockcode/services/auth_service.dart';
+import 'package:blockcode/services/report_service.dart';
 import 'package:blockcode/presentation/screens/transacciones_screen.dart';
 
 class ProyectosScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class _ProyectosScreenState extends State<ProyectosScreen> {
   final ProyectoService _service = ProyectoService();
   final UsuarioProyectoService _assignmentService = UsuarioProyectoService();
   final AuthService _authService = AuthService();
+  final ReportService _reportService = ReportService();
   List<dynamic> _assignments = [];
   Map<String, dynamic>? _currentUser;
   Set<String> _userProjectIds = {};
@@ -132,6 +134,31 @@ class _ProyectosScreenState extends State<ProyectosScreen> {
     );
   }
 
+  void _generarReporte(Map<String, dynamic> proyecto) async {
+    try {
+      final idProyecto = int.tryParse(proyecto['id_proyecto'].toString());
+      if (idProyecto == null) {
+        return;
+      }
+
+      // Realizar la petición al endpoint
+      await _reportService.getFinancialReport(
+        idProyecto: idProyecto,
+      );
+
+      // Mostrar confirmación breve
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Reporte enviado'),
+          duration: Duration(seconds: 1),
+        ),
+      );
+    } catch (e) {
+      // No mostrar nada en caso de error
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,103 +180,123 @@ class _ProyectosScreenState extends State<ProyectosScreen> {
             itemCount: data.length,
             itemBuilder: (context, i) {
               final p = data[i];
-              return ListTile(
-                title: Text(p['nombre']),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Responsable: ${p['responsable']}"),
-                    const SizedBox(height: 4),
-                    Builder(builder: (context) {
-                      final projectId = p['id_proyecto']?.toString();
-                      final count = _assignments.where((a) => a['id_proyecto']?.toString() == projectId).length;
-                      return Text('Asignados: $count');
-                    }),
-                  ],
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.group, color: Colors.orange),
-                      tooltip: 'Ver asignados',
-                      onPressed: () {
-                        final projectId = p['id_proyecto']?.toString();
-                        final assigned = _assignments.where((a) => a['id_proyecto']?.toString() == projectId).toList();
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Asignados - ${p['nombre']}'),
-                            content: SizedBox(
-                              width: double.maxFinite,
-                              child: assigned.isEmpty
-                                  ? const Text('No hay usuarios asignados.')
-                                  : ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: assigned.length,
-                                      itemBuilder: (context, idx) {
-                                        final a = assigned[idx];
-                                        return ListTile(
-                                          title: Text(a['usuario']?.toString() ?? a['nombre_usuario']?.toString() ?? 'Usuario'),
-                                          subtitle: Text('ID: ${a['id_usuario'] ?? ''}'),
-                                        );
-                                      },
-                                    ),
-                            ),
-                            actions: [
-                              TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cerrar')),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                    
-                    IconButton(
-                      icon: const Icon(Icons.list_alt, color: Colors.green),
-                      tooltip: 'Administrar Transacciones',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TransaccionesScreen(proyecto: p),
-                          ),
-                        );
-                      },
-                    ),
-                    
-                    // Role based: admin (id_rol==1) can edit/delete; operator (id_rol==2) can edit/delete for assigned projects; worker (id_rol==3) cannot.
-                    Builder(builder: (context) {
-                      final user = _currentUser;
-                      final idRol = int.tryParse(user?['id_rol']?.toString() ?? '0') ?? 0;
-                      final isAdmin = idRol == 1;
-                      final isOperator = idRol == 2;
+              return Card(
+                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Título del proyecto
+                      Text(
+                        p['nombre'],
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
                       
-                      final projectId = p['id_proyecto']?.toString();
-                      final operatorCanModify = isOperator && _userProjectIds.contains(projectId);
+                      // Detalles
+                      Text("Responsable: ${p['responsable']}"),
+                      const SizedBox(height: 4),
+                      Builder(builder: (context) {
+                        final projectId = p['id_proyecto']?.toString();
+                        final count = _assignments.where((a) => a['id_proyecto']?.toString() == projectId).length;
+                        return Text('Asignados: $count');
+                      }),
+                      const SizedBox(height: 12),
+                      
+                      // Botones debajo
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.group, color: Colors.orange),
+                            tooltip: 'Ver asignados',
+                            onPressed: () {
+                              final projectId = p['id_proyecto']?.toString();
+                              final assigned = _assignments.where((a) => a['id_proyecto']?.toString() == projectId).toList();
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('Asignados - ${p['nombre']}'),
+                                  content: SizedBox(
+                                    width: double.maxFinite,
+                                    child: assigned.isEmpty
+                                        ? const Text('No hay usuarios asignados.')
+                                        : ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: assigned.length,
+                                            itemBuilder: (context, idx) {
+                                              final a = assigned[idx];
+                                              return ListTile(
+                                                title: Text(a['usuario']?.toString() ?? a['nombre_usuario']?.toString() ?? 'Usuario'),
+                                                subtitle: Text('ID: ${a['id_usuario'] ?? ''}'),
+                                              );
+                                            },
+                                          ),
+                                  ),
+                                  actions: [
+                                    TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cerrar')),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                          
+                          IconButton(
+                            icon: const Icon(Icons.list_alt, color: Colors.green),
+                            tooltip: 'Administrar Transacciones',
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TransaccionesScreen(proyecto: p),
+                                ),
+                              );
+                            },
+                          ),
+                          
+                          IconButton(
+                            icon: const Icon(Icons.assessment, color: Colors.purple),
+                            tooltip: 'Ver Reporte Financiero',
+                            onPressed: () => _generarReporte(p),
+                          ),
+                          
+                          // Role based: admin (id_rol==1) can edit/delete; operator (id_rol==2) can edit/delete for assigned projects; worker (id_rol==3) cannot.
+                          Builder(builder: (context) {
+                            final user = _currentUser;
+                            final idRol = int.tryParse(user?['id_rol']?.toString() ?? '0') ?? 0;
+                            final isAdmin = idRol == 1;
+                            final isOperator = idRol == 2;
+                            
+                            final projectId = p['id_proyecto']?.toString();
+                            final operatorCanModify = isOperator && _userProjectIds.contains(projectId);
 
-                      if (isAdmin || operatorCanModify) {
-                        return Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit, color: Colors.blue),
-                              onPressed: () => _mostrarFormulario(proyecto: p),
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.delete, color: Colors.red),
-                              onPressed: () async {
-                                await _service.deleteProyecto(int.parse(p['id_proyecto'].toString()));
-                                setState(() {});
-                              },
-                            ),
-                          ],
-                        );
-                      }
+                            if (isAdmin || operatorCanModify) {
+                              return Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit, color: Colors.blue),
+                                    onPressed: () => _mostrarFormulario(proyecto: p),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () async {
+                                      await _service.deleteProyecto(int.parse(p['id_proyecto'].toString()));
+                                      setState(() {});
+                                    },
+                                  ),
+                                ],
+                              );
+                            }
 
-                      // Workers: no edit/delete buttons
-                      return const SizedBox.shrink();
-                    }),
-                  ],
+                            // Workers: no edit/delete buttons
+                            return const SizedBox.shrink();
+                          }),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

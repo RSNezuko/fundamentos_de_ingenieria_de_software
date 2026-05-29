@@ -51,18 +51,15 @@ class _HomeScreenState extends State<HomeScreen> {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Panel Principal'),
-            leading: IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () => _logout(context),
-            ),
           ),
           body: Center(
             child: Padding(
               padding: const EdgeInsets.all(24.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
                   const Text(
                     '¿Qué deseas gestionar?',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -139,7 +136,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ],
-              ),
+                ), // Column
+              ), // SingleChildScrollView
             ),
           ),
         );

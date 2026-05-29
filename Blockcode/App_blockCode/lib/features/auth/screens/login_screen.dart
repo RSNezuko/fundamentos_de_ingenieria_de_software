@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:blockcode/presentation/screens/home_screen.dart';
+import 'package:blockcode/main.dart';
 import 'package:blockcode/presentation/screens/loading_screen.dart';
 import 'package:blockcode/services/auth_service.dart';
 
@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute<void>(
             builder: (context) => const LoadingScreen(
-              nextScreen: HomeScreen(),
+              nextScreen: MainNavigationScreen(),
               message: 'Entrando...',
             ),
           ),

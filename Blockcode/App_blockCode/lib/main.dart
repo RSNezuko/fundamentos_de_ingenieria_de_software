@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:blockcode/features/auth/screens/login_screen.dart';
 import 'package:blockcode/presentation/screens/home_screen.dart';
 import 'package:blockcode/services/auth_service.dart';
+import 'dashboard/dashboard_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -82,7 +83,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
 
-      home: const SplashScreen(),
+  home: const SplashScreen(),
     );
   }
 }
@@ -102,7 +103,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkAuth() async {
-    // Debug trace
     debugPrint('Splash: _checkAuth started');
     await Future.delayed(const Duration(milliseconds: 500));
     final authService = AuthService();
@@ -115,7 +115,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) =>
-            isLoggedIn ? const HomeScreen() : const LoginScreen(),
+            isLoggedIn ? const MainNavigationScreen() : const LoginScreen(),
       ),
     );
   }
@@ -139,6 +139,50 @@ class _SplashScreenState extends State<SplashScreen> {
             const CircularProgressIndicator(),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Pantalla principal con BottomNavigationBar para Dashboard y Home
+class MainNavigationScreen extends StatefulWidget {
+  const MainNavigationScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
+}
+
+class _MainNavigationScreenState extends State<MainNavigationScreen> {
+  int _selectedIndex = 0;
+
+  static final List<Widget> _pages = <Widget>[
+    DashboardPage(),
+    HomeScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            label: 'Dashboard',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Panel',
+          ),
+        ],
       ),
     );
   }
