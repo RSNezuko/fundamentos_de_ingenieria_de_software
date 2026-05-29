@@ -48,9 +48,36 @@
     transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-.dashboard-action:hover {
+.dashboard-action:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: none;
+}
+
+.dashboard-action:hover:not(:disabled) {
     transform: translateY(-1px);
     filter: brightness(1.05);
+}
+
+.report-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.project-select-label {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.project-select {
+    min-width: 220px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    color: var(--text);
+    background: white;
 }
 
 .dashboard-grid {
