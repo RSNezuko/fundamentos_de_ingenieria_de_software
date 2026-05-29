@@ -10,58 +10,184 @@
     --text-muted: #CAD4E8;
 }
 
+/* =========================
+   NAVBAR
+========================= */
+
 .navbar {
     display: flex;
-    justify-content: center;
-    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+
     padding: 16px 24px;
-    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--navy) 0%,
+            var(--navy-soft) 100%
+        );
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.12);
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* links normales */
-.navbar a {
+/* =========================
+   CENTRO
+========================= */
+
+.navbar-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    flex: 1;
+}
+
+/* =========================
+   DERECHA
+========================= */
+
+.navbar-side {
+    width: 150px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* =========================
+   LINKS
+========================= */
+
+.nav-link {
     text-decoration: none;
+
     color: var(--text-muted);
+
     font-weight: 600;
+
     padding: 12px 20px;
+
     border-radius: 12px;
+
     transition: all 0.3s ease;
+
     text-transform: uppercase;
+
     letter-spacing: 0.04em;
+
     font-size: 0.95rem;
 }
 
-/* hover */
-.navbar a:hover {
+/* HOVER */
+
+.nav-link:hover {
+
     background: var(--surface);
+
     color: var(--text-light);
+
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+
+    box-shadow:
+        0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* 🔥 ACTIVO (forest green) */
-.navbar a.active {
-    background: linear-gradient(135deg, var(--forest) 0%, #14613f 100%);
+/* ACTIVO */
+
+.nav-link.active {
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--forest) 0%,
+            #14613f 100%
+        );
+
     color: white;
-    box-shadow: 0 8px 20px rgba(30, 77, 43, 0.3);
+
+    box-shadow:
+        0 8px 20px rgba(30, 77, 43, 0.3);
 }
 
-.navbar a.active:hover {
+.nav-link.active:hover {
     filter: brightness(1.05);
 }
 
-/* Responsive */
+/* =========================
+   LOGOUT
+========================= */
+
+.btn-logout {
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--accent-red) 0%,
+            #b63c3c 100%
+        );
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 18px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-weight: 700;
+
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+
+    transform: translateY(-1px);
+
+    filter: brightness(1.05);
+
+    box-shadow:
+        0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media (max-width: 640px) {
+
     .navbar {
+
         flex-wrap: wrap;
+
         gap: 12px;
+
         padding: 12px 16px;
     }
 
-    .navbar a {
+    .navbar-center {
+
+        flex-wrap: wrap;
+
+        gap: 12px;
+    }
+
+    .nav-link {
+
         padding: 10px 16px;
+
         font-size: 0.9rem;
+    }
+
+    .navbar-side {
+
+        width: 100%;
+
+        justify-content: center;
     }
 }

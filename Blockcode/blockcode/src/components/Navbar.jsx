@@ -1,8 +1,13 @@
-import { NavLink } from "react-router-dom";
+import {
+    NavLink,
+    useNavigate
+} from "react-router-dom";
 
 import "./Navbar.css";
 
 export default function Navbar() {
+
+    const navigate = useNavigate();
 
     const user = JSON.parse(
         localStorage.getItem("user")
@@ -19,49 +24,76 @@ export default function Navbar() {
     const isUsuario =
         idRol === 3;
 
+    // =====================
+    // LOGOUT
+    // =====================
+    const handleLogout = () => {
+
+        localStorage.removeItem("token");
+
+        localStorage.removeItem("user");
+
+        navigate("/");
+
+    };
+
     return (
 
         <nav className="navbar">
 
-            <NavLink
-                to="/dashboard"
-                end
-                className="nav-link"
-            >
-                Dashboard
-            </NavLink>
+            {/* IZQUIERDA */}
+            <div className="navbar-side"></div>
 
-            <NavLink
-                to="/dashboard/projects"
-                className="nav-link"
-            >
-                Projects
-            </NavLink>
-
-            <NavLink
-                to="/dashboard/inventory"
-                className="nav-link"
-            >
-                Inventory
-            </NavLink>
-
-            <NavLink
-                to="/dashboard/suppliers"
-                className="nav-link"
-            >
-                Suppliers
-            </NavLink>
-
-            {(isAdmin || isOperador) && (
+            {/* CENTRO */}
+            <div className="navbar-center">
 
                 <NavLink
-                    to="/dashboard/users"
+                    to="/dashboard/projects"
                     className="nav-link"
                 >
-                    Users
+                    Projects
                 </NavLink>
-            )}
+
+                <NavLink
+                    to="/dashboard/inventory"
+                    className="nav-link"
+                >
+                    Inventory
+                </NavLink>
+
+                <NavLink
+                    to="/dashboard/suppliers"
+                    className="nav-link"
+                >
+                    Suppliers
+                </NavLink>
+
+                {(isAdmin || isOperador) && (
+
+                    <NavLink
+                        to="/dashboard/users"
+                        className="nav-link"
+                    >
+                        Users
+                    </NavLink>
+
+                )}
+
+            </div>
+
+            {/* DERECHA */}
+            <div className="navbar-side">
+
+                <button
+                    className="btn-logout"
+                    onClick={handleLogout}
+                >
+                    Logout
+                </button>
+
+            </div>
 
         </nav>
+
     );
 }
