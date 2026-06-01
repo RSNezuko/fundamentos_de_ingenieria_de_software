@@ -48,7 +48,7 @@ export default function Navbar() {
             <div className="navbar-center">
 
                 <NavLink
-                    to="/dashboard/dashboard"
+                    to="/dashboard"
                     className="nav-link"
                 >
                     Home
