@@ -6,17 +6,17 @@ export default function ConfirmModal({ text, onConfirm, onCancel }) {
             <div className="modal-popup">
                 <div className="modal-header">
                     <div className="modal-icon">⚠️</div>
-                    <h3>Confirmar Acción</h3>
+                    <h3>Confirm Action</h3>
                 </div>
                 <div className="modal-body">
                     <p>{text}</p>
                 </div>
                 <div className="modal-actions">
                     <button className="btn-cancel" onClick={onCancel}>
-                        Cancelar
+                        Cancel
                     </button>
                     <button className="btn-confirm" onClick={onConfirm}>
-                        Sí, Confirmar
+                        Yes, Confirm
                     </button>
                 </div>
             </div>

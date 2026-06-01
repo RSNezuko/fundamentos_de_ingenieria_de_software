@@ -75,7 +75,7 @@ export default function Projects() {
             !form.fecha_fin ||
             !form.presupuesto
         ) {
-            showMessage("Faltan datos obligatorios", "error");
+            showMessage("Missing required fields", "error");
             return false;
         }
         return true;
@@ -167,7 +167,7 @@ export default function Projects() {
                 ]);
             }
 
-            showMessage(buildMessage("Proyecto", actionData.nombre, "creado"), "success");
+            showMessage(buildMessage("Project", actionData.nombre, "created"), "success");
             resetForm();
         }
 
@@ -188,7 +188,7 @@ export default function Projects() {
                 ));
             }
 
-            showMessage(buildMessage("Proyecto", actionData.nombre, "actualizado"), "success");
+            showMessage(buildMessage("Project", actionData.nombre, "updated"), "success");
             resetForm();
         }
 
@@ -207,7 +207,7 @@ export default function Projects() {
                 setProjects(projects.filter(p => p.id_proyecto !== actionData.id_proyecto));
             }
 
-            showMessage(buildMessage("Proyecto", actionData.nombre, "eliminado"), "success");
+            showMessage(buildMessage("Project", actionData.nombre, "deleted"), "success");
         }
 
         setShowConfirm(false);
@@ -341,12 +341,12 @@ export default function Projects() {
             {/* MODAL */}
             {showConfirm && (
                 <ConfirmModal
-                    text={`¿Seguro que deseas ${actionType === "create"
-                        ? "crear"
+                    text={`Are you sure you want to ${actionType === "create"
+                        ? "create"
                         : actionType === "update"
-                            ? "actualizar"
-                            : "eliminar"
-                        } el proyecto "${actionData?.nombre}"?`}
+                            ? "update"
+                            : "delete"
+                        } the project "${actionData?.nombre}"?`}
                     onConfirm={handleConfirm}
                     onCancel={() => setShowConfirm(false)}
                 />

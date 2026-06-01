@@ -100,7 +100,7 @@ export default function Login() {
                     );
 
                     showMessage(
-                        "Login correcto",
+                        "Login successful",
                         "success"
                     );
 
@@ -142,7 +142,7 @@ export default function Login() {
                 console.error(error);
 
                 showMessage(
-                    "Error de conexión",
+                    "Error connecting to server",
                     "error"
                 );
             }
@@ -171,7 +171,7 @@ export default function Login() {
             );
 
             showMessage(
-                "Login correcto",
+                "Login successful",
                 "success"
             );
 
@@ -197,7 +197,7 @@ export default function Login() {
             );
 
             showMessage(
-                "Login correcto",
+                "Login successful",
                 "success"
             );
 
@@ -223,7 +223,7 @@ export default function Login() {
             );
 
             showMessage(
-                "Login correcto",
+                "Login successful",
                 "success"
             );
 
@@ -234,7 +234,7 @@ export default function Login() {
 
         // ERROR
         showMessage(
-            "Credenciales incorrectas",
+            "Invalid credentials",
             "error"
         );
     }

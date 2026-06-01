@@ -82,7 +82,7 @@ export default function Transaccion() {
             !form.fecha ||
             !form.descripcion
         ) {
-            showMessage("Faltan datos obligatorios", "error");
+            showMessage("Missing required fields", "error");
             return false;
         }
 
@@ -164,7 +164,7 @@ export default function Transaccion() {
 
             console.log(error);
 
-            showMessage("Error cargando transacciones", "error");
+            showMessage("Error loading transactions", "error");
 
         }
 
@@ -272,9 +272,9 @@ export default function Transaccion() {
 
                 showMessage(
                     buildMessage(
-                        "Transacción",
+                        "Transaction",
                         form.tipo,
-                        "creada"
+                        "created"
                     ),
                     "success"
                 );
@@ -320,9 +320,9 @@ export default function Transaccion() {
 
                 showMessage(
                     buildMessage(
-                        "Transacción",
+                        "Transaction",
                         form.tipo,
-                        "actualizada"
+                        "updated"
                     ),
                     "success"
                 );
@@ -367,9 +367,9 @@ export default function Transaccion() {
 
                 showMessage(
                     buildMessage(
-                        "Transacción",
+                        "Transaction",
                         actionData.tipo,
-                        "eliminada"
+                        "deleted"
                     ),
                     "success"
                 );
@@ -380,7 +380,7 @@ export default function Transaccion() {
             console.log(error);
 
             showMessage(
-                "Error procesando transacción",
+                "Error processing transaction",
                 "error"
             );
         }
@@ -563,13 +563,13 @@ export default function Transaccion() {
             {/* MODAL */}
             {showConfirm && (
                 <ConfirmModal
-                    text={`¿Seguro que deseas ${actionType === "create"
-                        ? "crear"
+                    text={`Are you sure you want to ${actionType === "create"
+                        ? "create"
                         : actionType === "update"
-                            ? "actualizar"
-                            : "eliminar"
-                        } la transacción "${actionData?.tipo || form.tipo
-                        }" del proyecto "${proyecto?.nombre || "Proyecto"
+                            ? "update"
+                            : "delete"
+                        } the transaction "${actionData?.tipo || form.tipo
+                        }" from  "${proyecto?.nombre || "Project"
                         }"?`}
                     onConfirm={handleConfirm}
                     onCancel={() => setShowConfirm(false)}

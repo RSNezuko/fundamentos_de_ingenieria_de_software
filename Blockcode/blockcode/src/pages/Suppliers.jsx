@@ -68,7 +68,7 @@ export default function Suppliers() {
                 })
                 .catch(() => {
                     setMessage(
-                        "Error al cargar proveedores"
+                        "Error loading suppliers"
                     );
                 })
                 .finally(() => {
@@ -226,7 +226,7 @@ export default function Suppliers() {
             }
 
             setMessage(
-                "Proveedor creado"
+                "Supplier created"
             );
 
             resetForm();
@@ -257,7 +257,7 @@ export default function Suppliers() {
             }
 
             setMessage(
-                "Proveedor actualizado"
+                "Supplier updated"
             );
 
             resetForm();
@@ -290,7 +290,7 @@ export default function Suppliers() {
             }
 
             setMessage(
-                "Proveedor eliminado"
+                "Supplier deleted"
             );
 
         }
@@ -507,14 +507,14 @@ export default function Suppliers() {
     showConfirm && (
 
         <ConfirmModal
-            text={`¿Seguro que deseas ${actionType ===
+            text={`Are you sure you want to ${actionType ===
                 "create"
-                ? "crear"
+                ? "create"
                 : actionType ===
                     "update"
-                    ? "actualizar"
-                    : "eliminar"
-                } el proveedor "${actionData?.nombre
+                    ? "update"
+                    : "delete"
+                } the supplier "${actionData?.nombre
                 }"?`}
             onConfirm={handleConfirm}
             onCancel={() =>

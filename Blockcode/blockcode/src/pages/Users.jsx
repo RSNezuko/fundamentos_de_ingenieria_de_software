@@ -84,7 +84,7 @@ export default function Users() {
       (!editing && !form.password) ||
       !form.id_rol
     ) {
-      showMessage("Faltan datos obligatorios", "error");
+      showMessage("Missing required fields", "error");
 
       return false;
     }
@@ -127,7 +127,7 @@ export default function Users() {
         .catch((error) => {
           console.error(error);
 
-          showMessage("Error cargando datos", "error");
+          showMessage("Error loading data", "error");
         })
         .finally(() => {
           setLoading(false);
@@ -244,7 +244,7 @@ export default function Users() {
     // =====================
     // SIN PERMISOS
     // =====================
-    showMessage("No tienes permisos", "error");
+    showMessage("you don't have the permissions", "error");
   };
 
   // =====================
@@ -262,7 +262,7 @@ export default function Users() {
 
         // OPERADOR SOLO TRABAJADORES
         if (isOperador && Number(role?.id_rol) !== 3) {
-          showMessage("Solo puedes crear trabajadores", "error");
+          showMessage("you can only create workers", "error");
 
           setLoading(false);
 
@@ -298,7 +298,7 @@ export default function Users() {
         }
 
         showMessage(
-          buildMessage("Usuario", actionData.nombre, "creado"),
+          buildMessage("User", actionData.nombre, "created"),
           "success",
         );
 
@@ -364,7 +364,7 @@ export default function Users() {
         }
 
         showMessage(
-          buildMessage("Usuario", actionData.nombre, "actualizado"),
+          buildMessage("User", actionData.nombre, "updated"),
           "success",
         );
 
@@ -405,14 +405,14 @@ export default function Users() {
         }
 
         showMessage(
-          buildMessage("Usuario", actionData.nombre, "eliminado"),
+          buildMessage("User", actionData.nombre, "deleted"),
           "success",
         );
       }
     } catch (error) {
       console.error(error);
 
-      showMessage("Error en la operación", "error");
+      showMessage("Error in the operation", "error");
     } finally {
       setLoading(false);
 
@@ -481,7 +481,7 @@ export default function Users() {
 
   return (
     <div className="users-container">
-      <h2>{editing ? "Editando usuario" : "Users"}</h2>
+      <h2>{editing ? "Update User" : "Users"}</h2>
 
       {loading && <Loading />}
 
@@ -557,13 +557,13 @@ export default function Users() {
       {/* MODAL */}
       {showConfirm && (
         <ConfirmModal
-          text={`¿Seguro que deseas ${
+          text={`Are you sure you want to ${
             actionType === "create"
-              ? "crear"
+              ? "create"
               : actionType === "update"
-                ? "actualizar"
-                : "eliminar"
-          } el usuario "${actionData?.nombre}"?`}
+                ? "update"
+                : "delete"
+          } the user "${actionData?.nombre}"?`}
           onConfirm={handleConfirm}
           onCancel={() => setShowConfirm(false)}
         />

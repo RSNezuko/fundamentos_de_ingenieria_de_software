@@ -5,7 +5,7 @@ export default function Loading() {
         <div className="loading-overlay">
             <div className="loading-container">
                 <div className="loading-spinner"></div>
-                <p>Cargando...</p>
+                <p>Loading...</p>
             </div>
         </div>
     );
