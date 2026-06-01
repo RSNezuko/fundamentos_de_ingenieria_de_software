@@ -202,20 +202,6 @@ export default function ProjectDashboard() {
                     <p>Project Dashboard</p>
                 </div>
 
-                <div className="dashboard-filter">
-
-                    <select>
-                        <option>Last 7 days</option>
-                        <option>Last month</option>
-                        <option>Last year</option>
-                    </select>
-
-                    <button className="report-btn">
-                        Generate Report
-                    </button>
-
-                </div>
-
             </div>
 
             {/* PROJECT INFO */}
